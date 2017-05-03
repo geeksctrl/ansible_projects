@@ -1,0 +1,26 @@
+[centos7]
+192.168.122.241
+
+[ubuntu1604]
+192.168.122.186
+
+## Group ##
+[apache-webserver:children]
+ubuntu1604
+centos7
+
+## Staging - All servers ##
+[staging:children]
+apache-webserver
+
+########################
+## HOST VARIABLES ######
+########################
+
+# Set variables to particular hosts
+[ubuntu1604:vars]
+ansible_python_interpreter=/usr/bin/python3
+
+# These variables apply to all production instances.
+[staging:vars]
+ansible_ssh_user=ansible

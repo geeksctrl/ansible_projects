@@ -1,0 +1,4 @@
+---
+## Variables ##
+# Define PHP package name for Debian based operating system
+php_package: php7.0

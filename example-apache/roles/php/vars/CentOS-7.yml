@@ -1,0 +1,5 @@
+---
+
+### Variables ###
+# Define PHP package name for RedHat based operating system
+php_package: php

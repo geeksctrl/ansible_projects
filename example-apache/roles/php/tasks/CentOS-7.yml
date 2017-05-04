@@ -1,0 +1,16 @@
+---
+
+- name: Load OS distribution variables |Apache
+  include_vars: "{{ item }}"
+  with_first_found:
+    - "../vars/{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml"
+    - "../vars/default.yml"
+
+- name: install_php |CentOS 7.x
+  package:
+    name: "{{ php_package }}"
+    state: present
+  notify: apache_restart
+  tags:
+    - install-php
+

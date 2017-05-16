@@ -1,0 +1,28 @@
+---
+- name: Load OS distribution variables
+  include_vars: "{{ item }}"
+  with_first_found:
+    - "../vars/{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml"
+    - "../vars/default.yml"
+
+- name: update cache if last one was 3600 seconds ago
+  apt:
+    update_cache: yes
+    cache_valid_time: 3600
+  tags:
+    - apt-update
+
+- name: install mysql database server | Ubuntu 16
+  package:
+    name: "{{ mysql_package }}"
+    state: present
+  tags:
+    - mysql-install
+
+- name: install mysqldb python package | Ubuntu 16
+  package:
+    name: "{{ mysql_python }}"
+    state: present
+  notify: mysql_start
+  tags:
+    - mysqldb-python-install

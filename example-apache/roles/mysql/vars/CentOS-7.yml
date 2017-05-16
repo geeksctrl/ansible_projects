@@ -1,0 +1,18 @@
+---
+
+### Variables ###
+
+# Define Apache package name for RedHat based operating system
+mysql_package: mysql-server
+mysql_service: mysqld
+
+#  MySQLdb Python package
+# Ref: http://docs.ansible.com/ansible/mysql_db_module.html#requirements-on-host-that-executes-module
+
+mysql_python: MySQL-python
+
+# MySQL Yum Repo
+# In mysql_repo_url do not end with / , it is taken care in playbook
+mysql_repo_url: https://dev.mysql.com/get
+mysql_repo_rpm: mysql57-community-release-el7-9.noarch.rpm
+

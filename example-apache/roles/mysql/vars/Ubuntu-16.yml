@@ -1,0 +1,9 @@
+---
+# Define Apache package name for Debian based operating system
+mysql_package: mysql-server-5.7
+mysql_service: mysql
+
+#  MySQLdb Python package 
+# Ref: http://docs.ansible.com/ansible/mysql_db_module.html#requirements-on-host-that-executes-module
+
+mysql_python: python3-mysqldb

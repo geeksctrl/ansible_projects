@@ -1,0 +1,24 @@
+---
+- name: MySQL Root Password Variables
+  include_vars: "{{ item }}"
+  with_first_found:
+    - "../vars/default.yml"
+
+- name: start mysql | CentOS 7
+  service:
+    name: "{{ mysql_service }}"
+    state: started
+
+- name: get and register mysql tmp passwd| CentOS 7
+  shell: grep 'temporary password' /var/log/mysqld.log| awk -F 'root@localhost:' '{print $2}'|sed 's/^[ \t]*//;s/[ \t]*$//'
+  register: mysql_tmp_passwd_register
+
+- name: reset mysql root passwd| first time - CentOS 7
+  shell: mysql -e "SET PASSWORD FOR root@"{{ mysql_host }}" = PASSWORD('"{{ mysql_new_passwd }}"');" --connect-expired-password -uroot -h"{{ mysql_host }}" -p"{{ mysql_tmp_passwd_register.stdout }}"
+
+- name: mysql root tmp passwd file status update
+  template:
+    src: mysql_tmp_passwd.j2
+    dest: ~/.mysql_tmp_passwd_status
+  tags:
+    mysql_tmp_passwd

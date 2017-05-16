@@ -1,0 +1,21 @@
+---
+- name: mysql_start
+  service:
+    name: "{{ mysql_service }}"
+    state: started
+  tags:
+    - mysql-start
+
+- name: mysql_restart
+  service:
+    name: "{{ mysql_service }}"
+    state: restarted
+  tags:
+    - mysql-restart
+- name: mysql_passwd_reset_update
+  template:
+    src: mysql_tmp_passwd.j2
+    dest: ~/.mysql_tmp_passwd
+  tags:
+    mysql_tmp_passwd-update
+

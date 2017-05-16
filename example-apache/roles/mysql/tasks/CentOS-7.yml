@@ -1,0 +1,34 @@
+---
+- name: Load OS distribution variables
+  include_vars: "{{ item }}"
+  with_first_found:
+    - "../vars/{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml"
+    - "../vars/default.yml"
+
+- name: install mysql repo rpm package
+  yum:
+    name: "{{ mysql_repo_url }}/{{ mysql_repo_rpm }}" 
+    state: present
+  tags:
+    - mysql-repo-install
+
+- name: register mysql_package_status
+  command: rpm -q mysql-community-server-5.7*
+  register: mysql_yum_register
+  ignore_errors: yes
+
+- name: install mysql server | CentOS 7
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - "{{ mysql_package }}"
+    - "{{ mysql_python }}"
+  tags:
+    - mysql-install
+    - mysqldb-python-install
+
+
+- include: first_passwd_reset.yml
+  when: mysql_yum_register.rc != 0
+

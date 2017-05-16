@@ -1,0 +1,16 @@
+---
+- name: MySQL passwd variables
+  include_vars: "{{ item }}"
+  with_first_found:
+    - "../vars/default.yml"
+
+- name: Remove Anonymous MySQL User
+  mysql_user:
+    login_user: root
+    login_password: "{{ mysql_current_passwd }}"
+    name: ''
+    host_all: yes
+    state: absent
+  tags:
+    - remove-anonymous-mysql-user
+

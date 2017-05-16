@@ -1,0 +1,6 @@
+---
+- name: Configure Apache Web Server
+  hosts: mysql-dbserver
+  become: true
+  roles:
+    - { role: mysql }

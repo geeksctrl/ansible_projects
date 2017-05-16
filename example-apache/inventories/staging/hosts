@@ -9,9 +9,14 @@
 ubuntu1604
 centos7
 
+[mysql-dbserver:children]
+ubuntu1604
+centos7
+
 ## Staging - All servers ##
 [staging:children]
 apache-webserver
+mysql-dbserver
 
 ########################
 ## HOST VARIABLES ######
